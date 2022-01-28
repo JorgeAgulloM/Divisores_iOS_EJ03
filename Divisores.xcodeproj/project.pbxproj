@@ -17,6 +17,7 @@
 		11212E08279FF8F7007A2510 /* DivisoresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11212E07279FF8F7007A2510 /* DivisoresTests.swift */; };
 		11212E12279FF8F7007A2510 /* DivisoresUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11212E11279FF8F7007A2510 /* DivisoresUITests.swift */; };
 		11212E14279FF8F7007A2510 /* DivisoresUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11212E13279FF8F7007A2510 /* DivisoresUITestsLaunchTests.swift */; };
+		1143ECCB27A40B06007CC5AE /* SearchDividersOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1143ECCA27A40B06007CC5AE /* SearchDividersOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		11212E0D279FF8F7007A2510 /* DivisoresUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DivisoresUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11212E11279FF8F7007A2510 /* DivisoresUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisoresUITests.swift; sourceTree = "<group>"; };
 		11212E13279FF8F7007A2510 /* DivisoresUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisoresUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1143ECCA27A40B06007CC5AE /* SearchDividersOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDividersOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				11212DFB279FF8F7007A2510 /* LaunchScreen.storyboard */,
 				11212DFE279FF8F7007A2510 /* Info.plist */,
 				11212DF6279FF8F2007A2510 /* Divisores.xcdatamodeld */,
+				1143ECCA27A40B06007CC5AE /* SearchDividersOperation.swift */,
 			);
 			path = Divisores;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				11212DF2279FF8F2007A2510 /* ViewController.swift in Sources */,
 				11212DEE279FF8F2007A2510 /* AppDelegate.swift in Sources */,
 				11212DF8279FF8F2007A2510 /* Divisores.xcdatamodeld in Sources */,
+				1143ECCB27A40B06007CC5AE /* SearchDividersOperation.swift in Sources */,
 				11212DF0279FF8F2007A2510 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

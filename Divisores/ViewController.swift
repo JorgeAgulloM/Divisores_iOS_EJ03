@@ -19,6 +19,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var divisorsList: Array<Int> = []
     var userNumberString: String = ""
     var userNumber: Int = 0
+    var queue: OperationQueue? = OperationQueue()
+    var searchStart: Bool = false
+    var cancelSearh: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +44,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBAction func actionSearchButton(_ sender: UIButton) {
         //  Se consulta la validación para activar la función
-        if validateInput() {
+        if searchStart {
+            cancelSearh = true
+            queue?.cancelAllOperations()
+        } else if validateInput() && !searchStart{
             searchDivisors()
         }
+        
     }
     
     //  Función de búsqueda de divisores
@@ -51,19 +58,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //  Puesta en marcha de indicadores y bloqueos
         startStop(true)
         
-        DispatchQueue.global().async {
-            let userNumber = self.userNumber
-            for n in (1...userNumber) {
-                if userNumber % n == 0 {
-                    self.divisorsList.append(n)
-                    DispatchQueue.main.async {
-                        self.divisorsTableView.reloadData()
-                    }
-                }
-                self.progressUpdateOnlyForGlobalThread(Float(n))
-            }
-            DispatchQueue.main.async { self.startStop(false) }
-        }
+        let getDividers = SearchDividersOperation(userNumber, self)
+        
+        queue?.addOperation(getDividers)
+        
     }
     
     func progressUpdateOnlyForGlobalThread(_ n: Float) {
@@ -81,7 +79,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func startStop(_ initProcess: Bool) {
         if initProcess {
             //Deshabilita el botón para evitar realizar más peticiones
-            searchButton.isEnabled = false
+            cancelSearh = false
+            searchStart = true
+            searchButton.setTitle("Cancelar", for: UIButton.State.normal)
             divisorsList.removeAll()
             ActivityIndicator.startAnimating()
             progressBar.isHidden = false
@@ -89,11 +89,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             progressLabel.text = "0"
         } else {
             ActivityIndicator.stopAnimating()
-            searchButton.isEnabled = true
-            notifyUser(title: "Divisores",
-                            subtitle: "Operación finalizada",
-                            body: "\(userNumber) tiene \(divisorsList.count > 1 ? "\(divisorsList.count) divisores" : "un solo divisor"), revisa la lista.")
-            searchButton.isEnabled = true
+            searchStart = false
+            if cancelSearh {
+                divisorsList.removeAll()
+                divisorsList.append(0)
+                divisorsTableView.reloadData()
+                progressBar.isHidden = false
+                progressBar.progress = 0
+                progressLabel.text = ""
+            }
+            searchButton.setTitle("Buscar", for: UIButton.State.normal)
         }
     }
     
@@ -133,7 +138,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = divisorsTableView.dequeueReusableCell(withIdentifier: "divisorCell", for: indexPath)
         
-        cell.textLabel?.text = "\(divisorsList[indexPath.row]) es divisor de \(userNumber)"
+        if !cancelSearh {
+            cell.textLabel?.text = "\(divisorsList[indexPath.row]) es divisor de \(userNumber)"
+        } else {
+            cell.textLabel?.text = "Operación Cancelada por usuario"
+        }
         
         return cell
     }
