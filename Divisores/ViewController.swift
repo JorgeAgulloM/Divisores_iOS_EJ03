@@ -46,6 +46,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     //Acción principal de la app
     @IBAction func actionSearchButton(_ sender: UIButton) {
+        //  Oculta el teclado al pulsar el botón.
+        UIApplication.shared.keyWindow?.endEditing(true)
+        
         //  Se consulta la validación para activar la función...
         if searchStart {
             //  ...en caso de que se esté ejecutando el cálculo, se cancela esta mediante la boolean...
@@ -100,7 +103,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if initProcess {
             cancelSearh = false
             searchStart = true
-            searchButton.setTitle("Cancelar", for: UIButton.State.normal)
+            searchButton.setTitle("   Cancelar", for: UIButton.State.normal)
             divisorsList.removeAll()
             ActivityIndicator.startAnimating()
             progressBar.isHidden = false
