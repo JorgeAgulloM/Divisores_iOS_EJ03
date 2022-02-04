@@ -10,7 +10,6 @@ import UserNotifications
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    //  Propiedades, variables y outles
     @IBOutlet weak var inputText: UITextField!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
@@ -26,11 +25,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //  propiedad de acceso a la tableView
         divisorsTableView.delegate = self
         divisorsTableView.dataSource = self
         
-        //  Solicitud al usuario de los permisos necesarios para las notificaciones, en este caso.
+        //  Solicitud al usuario de los permisos necesarios
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (garanted, error) in
             if garanted {
                 print("permiso concedido")
@@ -43,22 +41,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
     }
-
-    //Acción principal de la app
+    
+    //Acción principal de la app al pulsar el botón
     @IBAction func actionSearchButton(_ sender: UIButton) {
-        //  Oculta el teclado al pulsar el botón.
+        //  Oculta el teclado al pulsar el botón. *Nota a profesor => Creo que esto no es lo oportuno para ocultar el teclado, por no he encontrado otra opción "simple" como esta.
         UIApplication.shared.keyWindow?.endEditing(true)
         
         //  Se consulta la validación para activar la función...
         if searchStart {
-            //  ...en caso de que se esté ejecutando el cálculo, se cancela esta mediante la boolean...
-            if cancelSearh == false { cancelSearh = true}
-            //  ...y se cancela la cola de ejecución
+            //  ...se activa la cancelación del cálculo
+            cancelSearh = true
             queue?.cancelAllOperations()
             
-            //  Si no se está ejecutando el cálculo y las validaciones son correctas...
+          //  Si no se está ejecutando el cálculo y las validaciones son correctas se inicia el cáculo
         } else if validateInput() && !searchStart{
-            //  ...se llama a la función principal
             searchDivisors()
             
         }
@@ -70,25 +66,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //  Puesta en marcha de indicadores y bloqueos de interfaz
         startStop(true)
         
-        //  Se crea una variable del tipo Operation cargando su constructor con los valores necesarios...
+        //  Se crea una variable del tipo Operation y se agrega a la cola de ejecución
         let getDividers = SearchDividersOperation(userNumber, self)
-        //  ...y se agrega a la cola de ejecución
         queue?.addOperation(getDividers)
         
     }
     
-    //  Función de control del progreso. Se encarga de calcular y mostrar el proceso al usuario
+    //  Función de control del progreso
     func progressUpdateOnlyForGlobalThread(_ n: Float) {
-        //  Variable interna
         var progressUpdate: Float = 0
-        //  Para evitar que el indicador pueda incrementarse en más de 100, se bloquea el set en dicho valor
-        if progressUpdate < 100.0 {
-            //  Mientras la variable no sea 100 se calcula el porcentaje con el número del usuario
-            progressUpdate = (Float(n) * 100.0) / Float(userNumber)
-            
-        }
         
-        //  Se llama, desde el hilo principal, al texto y a la barra de progreso para actualizarlas
+        //  Se calcula el porcentaje con el número del usuario
+        if progressUpdate < 100.0 { progressUpdate = (Float(n) * 100.0) / Float(userNumber) }
+        
+        //  Se actualizan marcadores de progreso
         DispatchQueue.main.async {
             self.progressBar.progress = progressUpdate / 100
             self.progressLabel.text = "\(Int(progressUpdate))%"
@@ -110,6 +101,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             progressBar.progress = 0
             progressLabel.text = "0"
             
+            //  Si se detiene...
         } else {
             ActivityIndicator.stopAnimating()
             searchStart = false
@@ -118,7 +110,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 divisorsList.removeAll()
                 divisorsList.append(0)
                 divisorsTableView.reloadData()
-                progressBar.isHidden = false
+                progressBar.isHidden = true
                 progressBar.progress = 0
                 progressLabel.text = ""
                 
@@ -134,21 +126,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //  Se carga el valor del input
         let userNumberString = inputText.text!
         
-        //  se comprueba que haya valor...
+        //  se comprueba que haya valor numérico...
         if let n = Int(userNumberString) {
-            //  Si es mayor de cero se parsea a Int, se guarda en la varible
-            //y se devuelve un true para confirmarlo
             if n > 0 {
+                //  ...si es correcto
                 userNumber = Int(userNumberString)!
                 return true
                 
             }
-            //  En caso de que sea 0, se avisa al usuario y se devuelve un false
+            
+            //  ...si es 0
             showAlert("Atención!!", "El número debe ser mayor de 0")
             return false
             
         }
-        //  En caso de que no se haya introducido ningún número, se avisa al usuario y se devuelve un false
+        
+        //  ...si no se ha introducido ningún número
         showAlert("Atención!!", "Debes introducir un número")
         return false
         
@@ -158,6 +151,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func showAlert(_ title: String, _ message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        //Se carga la alerta para que el sistema la muestre
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
         
@@ -176,20 +171,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    //  Carga de la celda en la tabla con el valor deseado.
+    //  Carga la celda en la tabla con el valor deseado.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = divisorsTableView.dequeueReusableCell(withIdentifier: "divisorCell", for: indexPath)
         
-        //  En caso de que el cálculo esté en marcha, se carga el valor nuevo correspondiente del array
+        //  Mientras no se cancele...
         if !cancelSearh {
             cell.textLabel?.text = "\(divisorsList[indexPath.row]) es divisor de \(userNumber)"
             
+          //    ...si se cancela
         } else {
-            //  Si se ha cancelado la operación, se notifica al usuario.
             cell.textLabel?.text = "Operación Cancelada por usuario"
             
         }
-        //  Se devuelve la celda
+
         return cell
         
     }

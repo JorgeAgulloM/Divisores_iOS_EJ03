@@ -25,46 +25,50 @@ class SearchDividersOperation: Operation {
         var numberOfDivisors: Int = 0
         let userNumber = self.userNumber
         
-        //  En cada iteración se recorre desde el 1 hasta el número que solicita el usuario
+        //  ***Solo para observar que el progreso se pone a cero
+        if userNumber <= 9999 { sleep(1) }
+        
+        //  En cada iteración se recorre desde el 1 hasta el número que solicita el usuario...
         for n in (1...userNumber) {
             
-            //  si se cancela la acción, se llama a la función auxiliar,
-            //se notifica al usaurio y se sale del bloque.
+            //  ...si se cancela la acción...
             if isCancelled {
+                //  ...se pone fin a la búsqueda, se notifica al usaurio y se sale del bloque
                 endSearch()
                 vController.notifyUser(title: "Divisores",
                                        subtitle: "Operación cancelada",
                                        body: "La operación ha sido cancelada por el usuario.")
                 return
+                
             }
             
-            //  En caso de que el número de usuario se módulo de n...
+            //  ...si el número de usuario sea módulo de n...
             if userNumber % n == 0 {
-                //  ...se inserta el valor de n en el array, se incrementa el contador de divisrores totales...
+                //  ...se incrementa el arrya con el valor y el contador
                 vController.divisorsList.insert(n, at: 0)
                 numberOfDivisors += 1
-                //  ...y se abre el hilo de ejecución principal para recargar la tableView
-                DispatchQueue.main.async {
-                    self.vController.divisorsTableView.reloadData()
-                }
+                
+                //  ...se recarga la tableView
+                DispatchQueue.main.async { self.vController.divisorsTableView.reloadData() }
+                
             }
             
-            //  Se llama a la función con el valor de n en Float
+            //  ...se actualiza el progreso
             vController.progressUpdateOnlyForGlobalThread(Float(n))
         }
         
-        //  Una vez que han terminado las iteraciones, se notifica al usuario y se le faciclita información.
+        //  Una vez que han terminado las iteraciones, se notifica al usuario
         vController.notifyUser(title: "Divisores",
                                subtitle: "Operación finalizada",
                                body: "\(userNumber) tiene \(numberOfDivisors > 1 ? "\(numberOfDivisors) divisores" : "un solo divisor"), revisa la lista.")
         
-        //  Se llama a la función
         endSearch()
     }
     
-    //  Esta función conecta, mediante el hilo principal, a la función que configura los objetos de la vista para el inicio y el final
+    //  Función de llamada a startStop para reiniciar objetos
     func endSearch() {
         DispatchQueue.main.async { self.vController.startStop(false) }
+        
     }
     
     
