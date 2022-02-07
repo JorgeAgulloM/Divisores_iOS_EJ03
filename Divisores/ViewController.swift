@@ -16,6 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var divisorsTableView: UITableView!
+    @IBOutlet weak var labelRules: UILabel!
     var divisorsList: Array<Int> = []
     var userNumber: Int = 0
     var queue: OperationQueue? = OperationQueue()
@@ -100,8 +101,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             progressBar.isHidden = false
             progressBar.progress = 0
             progressLabel.text = "0"
+            labelRules.isHidden = true
             
-            //  Si se detiene...
+          //  Si se detiene...
         } else {
             ActivityIndicator.stopAnimating()
             searchStart = false

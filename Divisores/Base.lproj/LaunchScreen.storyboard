@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,15 +13,50 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bienvenido a..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="SCt-AS-Fqo">
+                                <rect key="frame" x="58" y="89" width="299" height="46"/>
+                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="36"/>
+                                <color key="textColor" red="0.066161548789999997" green="0.69119635290000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DIVISORES" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="bAR-Dz-8bB">
+                                <rect key="frame" x="58" y="151" width="299" height="51"/>
+                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="40"/>
+                                <color key="textColor" red="0.066161548789999997" green="0.69119635290000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="math" translatesAutoresizingMaskIntoConstraints="NO" id="bAi-oK-PbQ">
+                                <rect key="frame" x="0.0" y="226" width="414" height="636"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="bAi-oK-PbQ" secondAttribute="bottom" id="6UH-EU-Zm9"/>
+                            <constraint firstItem="SCt-AS-Fqo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="58" id="K0s-aa-TEo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bAi-oK-PbQ" secondAttribute="trailing" id="RgU-fD-96Q"/>
+                            <constraint firstItem="bAi-oK-PbQ" firstAttribute="top" secondItem="bAR-Dz-8bB" secondAttribute="bottom" constant="24" id="aFh-03-LOG"/>
+                            <constraint firstItem="bAR-Dz-8bB" firstAttribute="top" secondItem="SCt-AS-Fqo" secondAttribute="bottom" constant="16" id="m7x-U3-Hdu"/>
+                            <constraint firstItem="bAR-Dz-8bB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="58" id="sFy-Gd-a1F"/>
+                            <constraint firstItem="bAi-oK-PbQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="szW-cY-e6e"/>
+                            <constraint firstItem="SCt-AS-Fqo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="45" id="vjb-bF-wnD"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SCt-AS-Fqo" secondAttribute="trailing" constant="57" id="vpf-16-oko"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bAR-Dz-8bB" secondAttribute="trailing" constant="57" id="ygf-kB-mWm"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="50.625" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="math" width="800" height="800"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
